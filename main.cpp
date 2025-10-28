@@ -17,7 +17,6 @@ int main () {
   while(true) {
     cout << "Text: ";
     getline(cin, g_input);
-    //cout << input << '\n';
 
     if(cin.fail()) {
       cin.clear();
@@ -31,15 +30,15 @@ int main () {
   double words = count_words(g_input);
   double sentences = count_sentences(g_input);
 
-  cout << "Letters: " << letters << " Words: " << words << " Sentences: " << sentences << '\n';
+  //cout << "Letters: " << letters << " Words: " << words << " Sentences: " << sentences << '\n';
 
   double avg_letters = (letters / words) * 100;
   double avg_sentences = (sentences / words) * 100;
 
-  double index = 0.0588 * avg_letters - 0.296 * avg_sentences - 15.8;
+  double index = round(0.0588 * avg_letters - 0.296 * avg_sentences - 15.8);
 
-  cout << "Avg Words: " << avg_letters << '\n';
-  cout << "Avg Sentences: " << avg_sentences << '\n';
+  //cout << "Avg Words: " << avg_letters << '\n';
+  //cout << "Avg Sentences: " << avg_sentences << '\n';
   cout << "Index: " << index << '\n';
 
 return 0;
