@@ -2,23 +2,21 @@
 #include <iostream>
 #include <limits.h>
 #include <cctype>
+#include <string>
 
 using namespace std;
 
-int calc_letters(string words);
-//calc_sentences();
-//calc_level();
+int count_letters(string input);
+int count_words(string input);
+int count_sentences(string input);
 
-string input = "";
+string g_input = "";
 
 int main () {
-
-  //up to 16, then Grade 16+, or Before Grade 1
-  //cout Text:
   
   while(true) {
     cout << "Text: ";
-    getline(cin, input);
+    getline(cin, g_input);
     //cout << input << '\n';
 
     if(cin.fail()) {
@@ -28,40 +26,57 @@ int main () {
       break;
     }
   }
-  
-  int average_letters = calc_letters(input);
-  cout << "Main " << average_letters << '\n';
 
-  return 0;
+  double letters = count_letters(g_input);
+  double words = count_words(g_input);
+  double sentences = count_sentences(g_input);
+
+  cout << "Letters: " << letters << " Words: " << words << " Sentences: " << sentences << '\n';
+
+  double avg_letters = (letters / words) * 100;
+  double avg_sentences = (sentences / words) * 100;
+
+  double index = 0.0588 * avg_letters - 0.296 * avg_sentences - 15.8;
+
+  cout << "Avg Words: " << avg_letters << '\n';
+  cout << "Avg Sentences: " << avg_sentences << '\n';
+  cout << "Index: " << index << '\n';
+
+return 0;
 }
 
-int calc_letters(string words) {
-  char current;
-  char previous;
+int count_letters(string input) {
+
   int letter_count = 0;
-  int word_count = 0;
 
-  for(int i = 0; i < words.length(); i++) {
-    current = words[i];
-    previous = words[i - 1];
-
-    if(isalpha(words[i])) {
+  for (int i = 0; i < input.length(); i++) {
+    if(isalpha(input[i])) {
       letter_count++;
     }
+  }
+  return letter_count;
+}
 
-    if(previous == ' ' || previous == '.') {
+int count_words(string input) {
+  
+  int word_count = 1;
+  
+  for(int i = 0; i < input.length(); i++) {
+    if(input[i] == ' ') {
       word_count++;
     }
   }
+  return word_count;
+}
 
-  //To fix index starting at 0, i don't know a better way right now
-  word_count += 1;
+int count_sentences(string input) {
+  
+  int sentence_count = 0;
 
-  //Printing Debug
-  //cout << "Final letters: " << letter_count << " " << "Final words: " << word_count << '\n';
-  //cout << average << '\n';
-
-  int avg_letters = (letter_count * 100) / word_count;
-
-  return avg_letters;
+  for(int i = 0; i < input.length(); i++) {
+    if(input[i] == '.' || input[i] == '!') {
+      sentence_count++;
+    }
+  }
+  return sentence_count;
 }
